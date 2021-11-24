@@ -11,6 +11,10 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use MongoDB\Client as Mongo;
 use App\Services\ConnectionDB;
+use App\Http\Requests\LoginValidation;
+use App\Http\Requests\UpdateNameValidation;
+use App\Http\Requests\UpdatePasswordValidation;
+use App\Http\Requests\UpdateGenderValidation;
 class LoginController extends Controller
 {
     function jwtToken($email,$passwor)
@@ -48,7 +52,7 @@ class LoginController extends Controller
         }
         return false;
     }
-    function updateName(Request $request)
+    function updateName(UpdateNameValidation $request)
     {
         $table = "users";
         $user = new ConnectionDb();
@@ -67,7 +71,7 @@ class LoginController extends Controller
             echo "Wrong Email or token...";
         }
     }
-    function forgetPassword(Request $request)
+    function forgetPassword(UpdatePasswordValidation $request)
     {
         $table = "users";
         $user = new ConnectionDb();
@@ -86,7 +90,7 @@ class LoginController extends Controller
             echo "Wrong Email or token...";
         }
     }
-    function updateGender(Request $request)
+    function updateGender(UpdateGenderValidation $request)
     {
         $table = "users";
         $user = new ConnectionDb();
@@ -105,7 +109,7 @@ class LoginController extends Controller
             echo "Wrong Email or token...";
         }
     }
-    function loggingIn(Request $request)
+    function loggingIn(LoginValidation $request)
     {
         $email = $request->email;
         $password = $request->password;

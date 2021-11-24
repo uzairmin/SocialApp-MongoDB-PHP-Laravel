@@ -5,6 +5,9 @@ use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Services\ConnectionDB;
+use App\Http\Requests\PostValidation;
+use App\Http\Requests\EmailValidation;
+use App\Http\Requests\UpdateAccessValidation;
 
 class PostController extends Controller
 {
@@ -20,7 +23,7 @@ class PostController extends Controller
         }
         return false;
     }
-    function posting(Request $request)
+    function posting(PostValidation $request)
     {
         $id;
         $table = "users";
@@ -45,9 +48,10 @@ class PostController extends Controller
                 "access" => $access
             );
             $collection->insertOne($document);
+            echo "Posted";
        }   
     }
-    function updateFile(Request $request)
+    function updateFile(EmailValidation $request)
     {
         $id;
         $table = "users";
@@ -70,7 +74,7 @@ class PostController extends Controller
             echo "File Updated...";
        }   
     }
-    function updateAccess(Request $request)
+    function updateAccess(UpdateAccessValidation $request)
     {
         $id;
         $table = "users";
@@ -93,7 +97,7 @@ class PostController extends Controller
             echo "Access Updated...";
        }   
     }
-    function deletePost(Request $request)
+    function deletePost(EmailValidation $request)
     {
         $id;
         $table = "users";
@@ -112,7 +116,7 @@ class PostController extends Controller
             $conn = new ConnectionDb();
             $collection = $conn->setConnection($table);
             $data1 = $collection->findOne(['user_id'=>$id, '_id'=>$postId]);
-            if($data1->_id)
+            if($data1!=NULL)
             {
                 $table = "comments";
                 $conn = new ConnectionDb();

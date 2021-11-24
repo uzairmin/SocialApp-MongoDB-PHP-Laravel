@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\TestMail;
 use App\Http\Requests\SignupValidation;
+use App\Http\Requests\EmailValidation;
 use App\Services\ConnectionDB;
 
 class SignupController extends Controller
@@ -53,7 +54,7 @@ class SignupController extends Controller
         }
         return false;
     }
-    function deactivate(Request $request)
+    function deactivate(EmailValidation $request)
     {
         $table = "users";
         $email = $request->email;
@@ -63,7 +64,7 @@ class SignupController extends Controller
         {
             $user = new ConnectionDb();
             $collection = $user->setConnection($table);
-            $collection->updateOne(array("remember_token"=>$token), array('$set'=>array("active"=>null,"status"=>null,"token"=>null,"remember_token"=>null)));
+            $collection->updateOne(array("remember_token"=>$token), array('$set'=>array("active"=>null,"status"=>null,"remember_token"=>null)));
             echo "User deactivated";
         }
         else

@@ -5,6 +5,7 @@ use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Services\ConnectionDB;
+use App\Http\Requests\EmailValidation;
 
 class CommentController extends Controller
 {
@@ -58,7 +59,7 @@ class CommentController extends Controller
             return false;
         }
     }
-    function commenting(Request $request)
+    function commenting(EmailValidation $request)
     {
         $ch;
         $table = "users";
@@ -118,7 +119,7 @@ class CommentController extends Controller
             echo "Comment Added";
         }
     }
-    function updateFile(Request $request)
+    function updateFile(EmailValidation $request)
     {
         $email = $request->email;
         $tokens = $request->token;
@@ -142,7 +143,7 @@ class CommentController extends Controller
             echo "File Updated...";
        }   
     }
-    function updateComment(Request $request)
+    function updateComment(EmailValidation $request)
     {
         $id;
         $email = $request->email;
@@ -167,7 +168,7 @@ class CommentController extends Controller
             echo "Comment updated...";
        }   
     }
-    function deleteComment(Request $request)
+    function deleteComment(EmailValidation $request)
     {
         $id;
         $table = "users";
@@ -185,8 +186,16 @@ class CommentController extends Controller
             $table = "comments";
             $conn = new ConnectionDb();
             $collection = $conn->setConnection($table);
-            $d = $collection->deleteOne(['_id' => $commentId]);
-            echo "Comment Deleted";
-       }   
+            $data = $collection->findOne(['_id'=>$commentId]);
+            if($data!=NULL)
+            {
+                $d = $collection->deleteOne(['_id' => $commentId]);
+                echo "Comment Deleted";
+            }
+            else
+            {
+                echo "Comment already deleted";
+            }
+        }   
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Services\ConnectionDB;
+use App\Http\Requests\LogoutValidation;
 
 class LogoutController extends Controller
 {
@@ -19,7 +20,7 @@ class LogoutController extends Controller
         }
         return false;
     }
-    function loggingOut(Request $request)
+    function loggingOut(LogoutValidation $request)
     {
         $table = "users";
         $user = new ConnectionDb();

@@ -5,6 +5,7 @@ use App\Models\Friend;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Services\ConnectionDB;
+use App\Http\Requests\FriendValidation;
 
 class FriendController extends Controller
 {
@@ -20,7 +21,7 @@ class FriendController extends Controller
         }
         return false;
     }
-    function addFriend(Request $request)
+    function addFriend(FriendValidation $request)
     {
         $u1Id;
         $u2Id;
@@ -52,6 +53,7 @@ class FriendController extends Controller
                     "user2_id" => $u2Id, 
                 );
                 $collection->insertOne($document);
+                return "Friends Added";
             }
         }
     }
